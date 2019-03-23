@@ -24,7 +24,12 @@ dependencies {
     implementation 'com.google.guava:guava:23.0'
 	compile 'com.squareup.okhttp3:okhttp:3.4.1'
 	compile 'org.jsoup:jsoup:1.11.3'
-	compile 'org.json:json:20090211'
+	compile 'joda-time:joda-time:2.9.9'
+   compile 'com.fasterxml.jackson.core:jackson-databind:2.8.7'
+   compile 'org.apache.httpcomponents:httpcore:4.4.6'
+   compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.7'
+   compile 'com.mashape.unirest:unirest-java:1.4.9'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }

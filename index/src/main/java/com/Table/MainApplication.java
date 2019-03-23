@@ -1,11 +1,13 @@
 package com.Table;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ import com.orders.CoinTool;
 import com.orders.MyHistoryTrade;
 import com.orders.MyZayvkiForTable;
 import com.orders.OrdersForTable;
-
+import com.update.ChangeFileUpdate;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -75,8 +77,8 @@ import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 public class MainApplication extends Application {
+	private final String version = "v1.0";
 	
-
 
 	private Label labelniz = new Label();
 	private ScheduledExecutorService executor;
@@ -98,12 +100,11 @@ public class MainApplication extends Application {
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		// TODO Auto-generated method stub
-		downloadstage = new DownLoadStage("Загрузка");
-		downloadstage.show();
+		
+		
 		//Stage stagebot = new StageBot();
 		//stagebot.show();
-		
+
 		
 		//stage.setAlwaysOnTop(true);
 		stage.setTitle("Indx.ru");
@@ -191,7 +192,7 @@ public class MainApplication extends Application {
 		fpvv.setMinWidth(960);
 		fpvv.setAlignment(Pos.CENTER);
 		fpvv.setStyle("-fx-background-color:#ffffff;");
-		Label labelvver = new Label("INDX.RU  (DEFF83) v1");
+		Label labelvver = new Label("INDX.RU  (DEFF83) "+version);
 		InnerShadow is = new InnerShadow();
 		
 		Reflection effect=new Reflection();
@@ -249,7 +250,7 @@ public class MainApplication extends Application {
 				System.out.println(arg0.getSource().toString());
 				
 				try {
-					File fileinit = new File("init.txt");
+					File fileinit = new File(User.getUser().getInitialisationfile());
 					
 					System.out.println(fileinit.delete());
 					}
@@ -698,14 +699,35 @@ public class MainApplication extends Application {
 			}
 			
 		});
+		downloadstage = new DownLoadStage("Проверка обновлений");
+		downloadstage.show();
 	Runnable runnabledown = new Runnable() {
 
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			
-	
-	
+			
+			
+			if(!ChangeFileUpdate.getInstance().isChange(version,downloadstage)) {
+				Platform. runLater(()->{
+					downloadstage.close();
+					downloadstage = new DownLoadStage("Старая версия");
+					downloadstage.show();
+				});
+				File fileNew = ChangeFileUpdate.getInstance().getNameFile();
+				
+				
+				deleteOldversion();
+				try {
+					Desktop.getDesktop().open(fileNew);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.exit(0);
+			};
+			
 		//notifyPreloader(new Preloader.ProgressNotification(0.2));
 		Opiration opirat = Opiration.getOpiration();
 		//баланс
@@ -720,7 +742,7 @@ public class MainApplication extends Application {
 					downloadstage.close();
 					Platform.runLater(()->{
 					try {
-						File fileinit = new File("init.txt");
+						File fileinit = new File(User.getUser().getInitialisationfile());
 						
 						System.out.println(fileinit.delete());
 						}
@@ -742,9 +764,7 @@ public class MainApplication extends Application {
 				}else {
 		//notifyPreloader(new Preloader.ProgressNotification(0.5));
 		Platform.runLater(()->{
-		downloadstage.close();
-		downloadstage = new DownLoadStage("...Загрузка необходимых параметров...");
-		downloadstage.show();
+			downloadstage.setLabel("...Загрузка необходимых параметров...");
 		});
 		
 		List<CoinTool> coinTools = opirat.getCoinTools();
@@ -819,5 +839,34 @@ public class MainApplication extends Application {
 		
 		System.out.println("CLOSEg");
 	}
-
+	private void deleteOldversion() {
+			// TODO Auto-generated method stub
+		try {
+			String pathApp = MainApplication.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			String sleshPathApp = pathApp.substring(1).replaceAll("/", "\\\\");
+			String tempbat = "temp.bat";
+			File batfile = new File(tempbat);
+			String lineSeparator = System.getProperty("line.separator");
+			if(batfile.createNewFile()) {
+				FileWriter writer = new FileWriter(batfile);
+				String battext = "@echo OFF" + lineSeparator +
+						":0" + lineSeparator +
+						"del " + sleshPathApp + lineSeparator +
+						"if exist " + sleshPathApp + " goto 0" + lineSeparator +
+						"del " + tempbat;
+				writer.write(battext);
+				writer.flush();
+				writer.close();
+			}
+			Desktop.getDesktop().open(new File(tempbat));
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		}
 }

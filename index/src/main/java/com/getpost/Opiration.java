@@ -177,7 +177,7 @@ public class Opiration {
 		
 		}catch (JSONException e){
 			exit = true;
-			System.out.println("Ошибка парсера JSON в Opiration");
+			System.out.println("Ошибка парсера JSON в Opiration"+"///"+e.toString());
 			System.out.println(priceList);
 		}
 		
@@ -248,7 +248,7 @@ public class Opiration {
 							String name = friend.getString("name");
 							Integer id_coin = friend.getInt("id");
 							
-							String price = friend.getString("price");
+							String price = friend.getDouble("price")+"";
 							CoinTool cointool = new CoinTool(name, price, id_coin);
 							
 							CoinTools.add(cointool);
@@ -258,7 +258,7 @@ public class Opiration {
 						} 
 						catch (JSONException e){
 							//ошибка обработка JSON обьекта
-							System.out.println("Ошибка парсера JSONCoins в Opiration");
+							System.out.println("Ошибка парсера JSONCoins в Opiration"+coin_price2+"///"+e.toString());
 							
 							
 						}
@@ -366,7 +366,7 @@ public class Opiration {
 						return "";
 						}
 						catch (JSONException e){
-							System.out.println("ошибка парсера Balance");
+							System.out.println("ошибка парсера Balance"+"///"+e.toString());
 						}
 					
 					
@@ -419,7 +419,7 @@ public class Opiration {
 				try {
 				JSONObject jsonres6 = new JSONObject(coin_price6);
 				JSONArray jsonArrayresval6 = jsonres6.getJSONArray("value");
-				String jsoncode6 = jsonres6.getString("code");
+				String jsoncode6 = jsonres6.getInt("code")+"";
 				String reezult = "";
 				List<MyHistoryTrade> myHistoryTrades= new ArrayList<>();
 				if (jsoncode6.equals("0")){
@@ -448,7 +448,7 @@ public class Opiration {
 				
 				return myHistoryTrades;
 				}catch(JSONException e){
-					System.out.println("ошибка парсера HistoryTrading : "+coin_price6);
+					System.out.println("ошибка парсера HistoryTrading : "+coin_price6+"///"+e.toString());
 					
 				}
 			}catch (IOException e) {
@@ -498,7 +498,7 @@ public class Opiration {
 				JSONObject jsonres6 = new JSONObject(coin_price6);
 				
 				JSONObject jsonresval6 = jsonres6.getJSONObject("value");
-				String jsoncode6 = jsonresval6.getString("Code");
+				String jsoncode6 = jsonresval6.getInt("Code")+"";
 				String reezult = "";
 				if (jsoncode6.equals("0")){
 					reezult = "успешно поставлена";
@@ -510,7 +510,7 @@ public class Opiration {
 				System.out.println(reezult);
 				return reezult;
 				}catch(JSONException e){
-					System.out.println("ошибка парсера AddOrders : "+coin_price6);
+					System.out.println("ошибка парсера AddOrders : "+coin_price6+"///"+e.toString());
 					
 				}
 			}catch (IOException e) {
@@ -555,7 +555,7 @@ public class Opiration {
 					try{
 					JSONObject jsonres5 = new JSONObject(coin_price5);
 					JSONObject jsonresval5 = jsonres5.getJSONObject("value");
-					String jsoncode5 = jsonresval5.getString("Code");
+					String jsoncode5 = jsonresval5.getInt("Code")+"";
 					String result = "";
 					if (jsoncode5.equals("0")){
 						result = "Успешно";
@@ -568,7 +568,7 @@ public class Opiration {
 						
 						}
 					return result;
-						}catch(JSONException e){System.out.println("ошибка парсера DelOrders");}
+						}catch(JSONException e){System.out.println("ошибка парсера DelOrders"+"///"+e.toString());}
 				}catch (IOException e) {
 					
 				}
@@ -627,7 +627,7 @@ public class Opiration {
 						Integer offerid = json_my_offer.getInt("offerid");						
 						String name = json_my_offer.getString("name");						
 						Integer kind = json_my_offer.getInt("kind");
-						String price2 = json_my_offer.getString("price");
+						String price2 = json_my_offer.getDouble("price")+"";
 						Double r = Double.parseDouble(price2);
 						String price = String.format(Locale.US, "%.4f",  r);						
 						Integer notes = json_my_offer.getInt("notes");
@@ -638,7 +638,9 @@ public class Opiration {
 					Sostin.getSostin().setMyOrderList(myOrderList);
 					return myOrderList;
 				}
-				catch (JSONException e){}
+				catch (JSONException e){
+					System.out.println("Ошибка парсера JSON в myOrder"+"///"+e.toString());
+				}
 			}catch (IOException e) {
 				//intent.putExtra("l", "ошибка");
 			}

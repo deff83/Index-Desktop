@@ -4,7 +4,7 @@ import com.getpost.Opiration;
 
 public class User {
 	private static User user = new User();
-	private String initialisationfile = "init.txt";
+	private String initialisationfile;
 	private String login, wmid, password, culture;
 	
 	private User() {

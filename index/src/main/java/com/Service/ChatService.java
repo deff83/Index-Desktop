@@ -35,6 +35,7 @@ public class ChatService implements Runnable {
 
 	@Override
 	public void run() {
+		
 		// TODO Auto-generated method stub
 		Chat chat = Chat.getChat();
 		try{
@@ -42,6 +43,7 @@ public class ChatService implements Runnable {
 			if(lastId.equals("x"))	lastId = getlasthundrid();
 			
 			if(lastId==null) return;
+			
 			//id в чате
 			String urlmes = "http://events.webmoney.ru/api/discuss/GetListPushes?eventId=268270102&groupUid=6be4dadf-c7ab-44e1-a1bc-b5ba4fa961c0&lastId="+lastId+"";
 			//RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
@@ -50,9 +52,9 @@ public class ChatService implements Runnable {
 
 				.build();
 			Response responseurl = null;
-
-
-
+			
+			
+			
 			responseurl = client2.newCall(requesturl).execute();
 			//System.out.println(response);
 			//ответ тела post запроса
@@ -114,7 +116,7 @@ public class ChatService implements Runnable {
 						a.text(texta);
 							//a.attr("style", "color: #ffffff");
 						a.attr("href", "");
-							System.out.println(textmes);
+							
 							listmesschat.add(messchat);
 						}
 						content +="<div class='mesblock'><div class='img'><img src = '"+urlimg+"' width='30' + height='30'></div><div class='mess'>"+"" + nickname +":" + doc.toString() + "</div></div>"
@@ -147,12 +149,12 @@ public class ChatService implements Runnable {
 
 			}
 			catch (JSONException e){
-				e.printStackTrace();
+				System.out.println("Error ChatService JSON:"+e.toString());
 			}
 
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println("Error ChatService:"+e.toString());
 		}
 		
 		
@@ -162,12 +164,12 @@ public class ChatService implements Runnable {
 		try{
 			String urlmeshund = "http://events.webmoney.ru/api/discuss/Paging?eventId=268270102&direction=0&pageSize=90";
 		//RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
-		Request requesturlhund = new Request.Builder()
+			
+			Request requesturlhund = new Request.Builder()
 			.url(urlmeshund)
 
 			.build();
 		Response responseurlhund = null;
-
 
 
 		responseurlhund = client2.newCall(requesturlhund).execute();
@@ -176,11 +178,14 @@ public class ChatService implements Runnable {
 				JSONArray jsonArrayhund;
 				jsonArrayhund = new JSONArray(answirmesrivhund);
 				JSONObject jsonobj = jsonArrayhund.getJSONObject(0);
-				lastid = jsonobj.getString("id");
+				lastid = jsonobj.getInt("id")+"";
 				Chat.getChat().setLastId(lastid);
-		}catch(JSONException e){}
-		}catch(Exception e){}
+		}catch(JSONException e){System.out.println("Error ChatService JSON: "+e.toString());}
+		}catch(Exception e){
+			System.out.println("Error ChatService: "+e.toString());
+		}
 		System.out.println(lastid);
+		
 		return lastid;
 	}
 	

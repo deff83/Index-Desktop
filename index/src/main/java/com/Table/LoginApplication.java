@@ -55,18 +55,18 @@ public class LoginApplication extends Application {
 		imglogoview.setFitHeight(200);
 		TextField wmidtextfield = new TextField();
 		wmidtextfield.setPromptText("WMID");
-		wmidtextfield.setText("280113070531");
+		
 		wmidtextfield.setFocusTraversable(false);
 		wmidtextfield.setPrefWidth(300);
 		TextField logintextfield = new TextField();
 		logintextfield.setPromptText("LOGIN");
 		logintextfield.setFocusTraversable(false);
-		logintextfield.setText("U0bEaZLzlags7j0");
+		
 		logintextfield.setPrefWidth(300);
 		TextField passwordtextfield = new TextField();
 		passwordtextfield.setPromptText("PASSWORD");
 		passwordtextfield.setFocusTraversable(false);
-		passwordtextfield.setText("uKIKrFvKT4spWfuGTE99lVDLeQfagx2gcb4");
+		
 		passwordtextfield.setPrefWidth(300);
 		Button buttonEnter = new Button("¬ход");
 		buttonEnter.setPrefWidth(300);

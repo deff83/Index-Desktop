@@ -15,7 +15,7 @@ import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 
 public class Main {
-
+	private final static String initfile = "init.txt";
 	public Main() {
 		// TODO Auto-generated constructor stub
 	}
@@ -27,8 +27,9 @@ public class Main {
 
 			@Override
 			public void run() {
+				User.getUser().setInitialisationfile(initfile);
 				// TODO Auto-generated method stub
-				try(BufferedReader br = new BufferedReader(new FileReader(User.getUser().getInitialisationfile()))){
+				try(BufferedReader br = new BufferedReader(new FileReader(initfile))){
 					
 					String login = br.readLine();
 					String wmid = br.readLine();
